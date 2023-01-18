@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { register } = require('./query');
+const { register, login } = require('./query');
 const crypto = require('crypto');
 
 /** 해당 id의 회원정보를 */
@@ -11,7 +11,7 @@ exports.info = (ctx, next) => {
 // 회원가입 처리 모듈
 exports.register = async (ctx, next) => {
     let  { email, password, name } = ctx.request.body;
-    let result = crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 255, 'sha512');
+    let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');
 
     let { affectedRows } = await register(email, result.toString('base64'), name);
 
@@ -30,7 +30,7 @@ exports.register = async (ctx, next) => {
 // 로그인 모듈
 exports.login = async (ctx, next) => {
     let { email, password } = ctx.request.body;
-    let result = crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 255, 'sha512');
+    let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');
 
     let item = await this.login(email, result.toString('base64'));
 
