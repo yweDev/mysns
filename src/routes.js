@@ -35,7 +35,7 @@ router.get('/user/:id', apiUserController.info);
 router.get('/api/feed', apiFeedController.index);
 router.post('/api/feed', apiFeedController.store);
 router.get('/api/feed/:id', apiFeedController.show);
-router.put('/api/feed/:id', apiFeedController.update);
+router.put('/api/feed', apiFeedController.update);
 router.delete('/api/feed/:id', apiFeedController.delete);
 
 module.exports = router;
