@@ -20,7 +20,7 @@ exports.register = async (ctx, next) => {
      * 그래서 `== 1` 이 아닌 `> 0`을 사용
      */
     if(affectedRows > 0) {
-        let token = await generateToken({ name });
+        let token = await generateToken({ name, id: insertId });
         ctx.body = token;
     } else {
         ctx.body = {result: "fail"};
@@ -37,7 +37,7 @@ exports.login = async (ctx, next) => {
     if(item == null) {
         ctx.body = { result: "fail" };
     } else {
-        let token = await  generateToken({ name: item.name });
+        let token = await  generateToken({ name: item.name, id: item.id });
         ctx.body = token;
     }
 }

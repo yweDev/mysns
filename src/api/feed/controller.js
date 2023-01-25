@@ -1,4 +1,3 @@
-const moment = require('moment');
 const { isNewFeed } = require('../../common/formatter/date');
 const { index, store, show, update, qdelete } = require('./query');
 
@@ -20,9 +19,13 @@ exports.store = async (ctx, next) => {
 
 /** 피드 상세 보기 */
 exports.show = async (ctx, next) => {
-    let { id } = ctx.params;
-    let result = await this.show(id);
-    ctx.body = `피드상세 : ${result}`;
+    let { id } = ctx.params.id;
+    let user = ctx.request.user;
+
+    let item = await this.show(id);
+    item['is_me'] = (user.id === item.user_id);
+    
+    ctx.body = item;
 }
 
 /** 피드 수정 */

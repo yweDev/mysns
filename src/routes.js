@@ -12,6 +12,7 @@ const { verify } = require('./middleware/auth');
 const webController = require('./web/controller');
 const apiUserController = require('./api/user/controller');
 const apiFeedController = require('./api/feed/controller');
+const { isModuleNamespaceObject } = require('util/types');
 
 router.use(myLogging)
 
@@ -29,13 +30,14 @@ router.get('/page/:page', webController.page);
 router.post('/api/user/register', apiUserController.register);
 router.post('/api/user/login', apiUserController.login);
 
-// router.use(verify);
+router.use(verify);
 router.get('/user/:id', apiUserController.info);
 
+// feed 재작성
 router.get('/api/feed', apiFeedController.index);
 router.post('/api/feed', apiFeedController.store);
 router.get('/api/feed/:id', apiFeedController.show);
-router.put('/api/feed', apiFeedController.update);
+router.put('/api/feed/', apiFeedController.update);
 router.delete('/api/feed/:id', apiFeedController.delete);
 
 module.exports = router;

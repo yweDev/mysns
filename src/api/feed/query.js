@@ -3,22 +3,22 @@
 // insert select update delete
 const { pool } = require('../../data');
 
-exports.index = async (ctx, next) => {
+exports.index = async (id) => {
     const query = `SELECT created_at FROM feed WHERE id=?`
     return await pool(query, [id]);
 }
 
-exports.store =  async (ctx, next) => {
+exports.store =  async (user_id, file_id, content) => {
     const query = `INSERT INTO feed (user_id, file_id, content) VALUES (?, ?, ?)`;
     return await pool(query, [user_id, file_id, content]);
 }
 
-exports.show =  async (ctx, next) => {
+exports.show =  async (id) => {
     const query = `SELECT * FROM feed WHERE id = ?`
     return await pool(query, [id]);
 }
 
-exports.update =  async (ctx, next) => {
+exports.update =  async (file_id, content, id) => {
     const query = `
         UPDATE user 
         SET file_id = ?,
@@ -28,7 +28,7 @@ exports.update =  async (ctx, next) => {
     return await pool(query, [file_id, content, id]);
 }
 
-exports.qdelete =  async (ctx, next) => {
+exports.qdelete =  async (id) => {
     const query = `DELETE feed WHERE id = ?`
     return await pool(query, [id]);
 }
